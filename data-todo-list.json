@@ -1,0 +1,25 @@
+{
+    "todo" : [
+        {
+            "id" : "123",
+            "label": "Create Barber template",
+            "status": "done"
+        },
+        {
+            "id" : "456",
+            "label": "Commit and Push to Github",
+            "status": "done"
+        },
+        {
+            "id" : "789",
+            "label": "Remove redundant logic  ex : renderConfig{}",
+            "status": "todo"
+        },
+        {
+            "id" : "101",
+            "label": "Implement generic method for component rendering",
+            "status": "todo"
+        } 
+        
+    ]
+}
