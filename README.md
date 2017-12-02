@@ -2,4 +2,4 @@
 javascript template for component-based approach to use with mustache.js
 
 ##### Todo Demo 
-![Todo Demo](/demo.png?raw=true "Barber Todo List")
+![Todo Demo](/demo.png?raw=true "Todo List")

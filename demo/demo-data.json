@@ -12,14 +12,9 @@
         },
         {
             "id" : "789",
-            "label": "Remove redundant logic  ex : renderConfig{}",
+            "label": "Do Something Cool",
             "status": "todo"
-        },
-        {
-            "id" : "101",
-            "label": "Implement generic method for component rendering",
-            "status": "todo"
-        } 
+        }
         
     ]
 }

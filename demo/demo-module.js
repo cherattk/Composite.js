@@ -1,6 +1,6 @@
-Barber = (typeof Barber !== "undefined")  ? Barber : {};
+Task = (typeof Task !== "undefined")  ? Task : {};
 
-Barber.util = {
+Task.util = {
     
     /**
     * @param {Object} config
@@ -39,14 +39,14 @@ Barber.util = {
 
 // ============================================================================
 
-Barber.moduleName = {
+Task.moduleName = {
     
     component :
     {
         componentOne : {
             
             /** Simple way to write and render component is
-             * to us Template literals
+             * to use Template literals
              * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
              */            
             templateHtml : `<div class="todo-head">
@@ -55,16 +55,16 @@ Barber.moduleName = {
                                 <br/>
                             </div>`,
             
-            parentElement : 'element-id',
+            parentElement : 'component-1',
             
             viewData : {
-                title : "Barber Todo List",
+                title : "Todo List",
                 message : "One Task at a Time"
             },
             
             render : function(){             
                 var html = this.templateHtml;
-                Barber.util.render({
+                Task.util.render({
                     parentElement : this.parentElement,
                     template : html,
                     viewData : this.viewData
@@ -73,8 +73,8 @@ Barber.moduleName = {
         }, //
         
         componentTwo : {
-            templateUrl : "component-todo-list.html",
-            viewData : 'data-todo-list.json',
+            templateUrl : "demo-view.html",
+            viewData : 'demo-data.json',
             parentElement : 'component-2',
             
             render : function(){
@@ -90,14 +90,14 @@ Barber.moduleName = {
                 if(typeof this.viewData === "string" /* if is url */ ){
                     $.getJSON(this.viewData , function(response){
                         renderConfig.viewData.todo = response.todo;                    
-                        Barber.util.render(renderConfig);
+                        Task.util.render(renderConfig);
                     });
                 }
                 else if(typeof this.viewData === "object" && this.viewData){
-                    Barber.util.render(renderConfig);
+                    Task.util.render(renderConfig);
                 }
                 
-            },
+            },            
             eventHandler : function(){
                 var list = document.getElementById('component-2');
                     list.addEventListener('click', function(ev) {
@@ -133,6 +133,6 @@ Barber.moduleName = {
 $(document).ready(function(){
 
     //==========================
-        Barber.moduleName.init();
+        Task.moduleName.init();
     //==========================   
 });
