@@ -2,7 +2,7 @@
     "todo" : [
         {
             "id" : "123",
-            "label": "Create Barber template",
+            "label": "Create Barber",
             "status": "done"
         },
         {
