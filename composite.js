@@ -4,8 +4,7 @@
  * @link      https://github.com/cherattk/Composite.js
  * @copyright Copyright (c) 2017 cheratt karim
  * @license   (MIT License) https://github.com/cherattk/Composite.js/blob/master/LICENSE
- * 
- *****************************************************************************************/
+ ******************************************************************************************/
 
 class _Composite {
     
