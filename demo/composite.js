@@ -1,4 +1,4 @@
-class _Barber {
+class _Composite {
     
     constructor() {      
         this.component = {};
@@ -20,16 +20,16 @@ class _Barber {
     }
   
     configComponent(c){
-        let barber = this;        
+        let self = this;        
         $.when( 
-            barber.settingView(c.name , c.view), 
-            barber.settingData(c.name , c.data))
+            self.settingView(c.name , c.view), 
+            self.settingData(c.name , c.data))
         .then(function(){
-                // Barber.updateComponentData()
+                // Composite.updateComponentData()
                 //MUST be called after registering observer
-                //@see Barber.registerObserver();                 
+                //@see Composite.registerObserver();                 
                 c.eventHandler(this);
-                barber.updateRender(c.name);
+                self.updateRender(c.name);
             });
         
         return c;
@@ -38,23 +38,23 @@ class _Barber {
     settingData(component_name , data){
         
         if(typeof data === 'string'){            
-            let barber = this;
+            let self = this;
             return $.getJSON(this.buildURL(data) , function(response_data){
-                 barber.component[component_name]['data'] = response_data;
+                self.component[component_name]['data'] = response_data;
             });
         }
     }
     
     settingView(component_name , view){
         
-        let barber = this;
+        let self = this;
         if(typeof view === 'function'){
-            barber.component[component_name]['view'] = view();
+            self.component[component_name]['view'] = view();
             
         }else if (typeof view === 'string'){
             let url = this.buildURL(view);
             return $.get( url , function(html){
-                barber.component[component_name]['view'] = html;
+                self.component[component_name]['view'] = html;
             });
         }
     }
@@ -127,4 +127,4 @@ class _Barber {
     }
 }
 
-var Barber = new _Barber();
+var Composite = new _Composite();

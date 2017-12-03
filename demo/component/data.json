@@ -2,7 +2,7 @@
     "todo" : [
         {
             "id" : "123",
-            "label": "Create Barber",
+            "label": "Implement Composite",
             "status": "done"
         },
         {
@@ -12,7 +12,7 @@
         },
         {
             "id" : "789",
-            "label": "Do Something Cool",
+            "label": "Do Something Cool in Next Iteration",
             "status": "todo"
         }
         

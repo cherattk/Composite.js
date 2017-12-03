@@ -1,13 +1,13 @@
 MyModule = [
     {  
         name : 'head',
-        view : "src/component/head.html",
+        view : "demo/component/head.html",
         parent : 'component-1',
         data : {
-                title : "Barber Todo List",
+                title : "Todo List",
                 message : "One Task at a Time"
             },
-        eventHandler : function(barber) {
+        eventHandler : function(Composite) {
 
             //console.log(this.name + ' update his data');    
         }
@@ -24,7 +24,7 @@ MyModule = [
                     {{ /todo }}
                 </ul>`;
         },
-        data : "src/component/data.json",
+        data : "demo/component/data.json",
         parent : 'component-2',
         eventHandler : function(){
             var list = document.getElementById(this.parent);
@@ -40,5 +40,5 @@ MyModule = [
 ];
 
 
-Barber.addModule(MyModule);
+Composite.addModule(MyModule);
 
