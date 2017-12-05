@@ -16,13 +16,10 @@ html,body{
     width:500px;
     margin:50px auto;
     background: white;
-    padding: 20px;
+    padding:0 50px;
     border:1px solid #ccc;
     box-shadow:0 1px 5px #ccceee;
     border-radius:3px;
-}
-.todo-head{
-    
 }
 
 ul {
@@ -31,9 +28,42 @@ ul {
     list-style:none;
 }
 
+/************* Begin Form-Component ***********************/
+#task-form{
+    margin: 0 0 20px;
+    borde:1px solid;
+    text-align:left;
+}
+#task-form input[type="text"]{
+    padding:7px;
+    border:1px solid #999;
+    width:calc(100% - 100px);
+    outline:none;
+    backgroun:#efefef;
+    box-shadow:1px 1px 1px #ccc inset
+}
+#task-form input[type="text"]:focus{
+    border-color:#327fe0;
+}
+#task-form input[type="submit"]{
+    padding:7px 20px;
+    background:#4f97f1;
+    border:1px solid #327fe0;
+    font-weight:bold;
+    cursor:pointer;
+    color:#fff;
+}
+#task-form input[type="submit"]:hover{
+    background:#1b74e4;
+}
+/***************** End Component-Form ********************/
+
+
+
+/************** Begin Component-List  ********************/
 .todo-list{
     text-align: left;
-    padding:0 30px 30px 30px;
+    padding:0 0 30px 0;
     font-weight:bold;
 }
 
@@ -52,6 +82,7 @@ ul {
     background:#2bef2b;
     text-decoration: line-through;
     position:relative;
+    border-left-color:green;
 }
 .todo-list li.done::before {
     content: '';
@@ -65,3 +96,5 @@ ul {
     height: 15px;
     width: 7px;
 }
+
+/*************** End Component-List **********************/
