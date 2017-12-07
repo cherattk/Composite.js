@@ -27,11 +27,13 @@ MyModule = [
             var self = this;
             form.onsubmit = function(e){
                 e.preventDefault();
+                
                 var data = {
                     id : '1111',
                     status : 'todo',
                     label : this.elements['label'].value
                 };
+                this.elements['label'].value = '';
                 composite.updateData(self.name , data);
             };
         }

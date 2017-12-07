@@ -10,18 +10,12 @@ class _Composite {
     
     constructor() {
         this.component = {};
-        this.observable = {};
-        this.shared_data = {};
+        this.publisher = {};
+        this.data_message = {};
     }   
     
     buildURL(view_path){
         return document.location.protocol + '//' + document.location.host + '/' + view_path;
-    }    
-    
-    addModule(_module){
-        _module.forEach(function(c){
-            this.addComponent(c);
-        } , this);
     }
     
     getComponent(name){
@@ -52,74 +46,84 @@ class _Composite {
         }
     }
     
-    settingComponent(c){
-        
-        var self = this;        
-        this.component[c.name] = c;
-        
-        $.when(
-            self.settingView(c.name , c.view.template), 
-            self.settingData(c.name , c.data))
-        .then(function(){                
-                self.renderComponent(c.name);
-                self.component[c.name].init(self);
-        });
-    }
+    
     
     updateData(component_name , data){
-        this.shared_data[component_name] = data;
-        this.notifyObserver(component_name);
+        this.data_message[component_name] = data;
+        this.notifySubscriber(component_name);
     }
     
-    registerObserver(component){
+    addModule(tab_module){
+        this.addComponent(tab_module);
+    }
+    
+    addComponent(tab_module){
         
-        if(Array.isArray(component.listen)){
-            
-            var listen = component.listen;            
-            for (var i = 0, max = listen.length - 2 ; i <= max; i++) {
-                if(typeof this.observable[listen[i]] === "undefined"){
-                    this.observable[listen[i]] = [component];
-                }
-                else{
-                    this.observable[listen[i]].push(component);
-                }   
-            }
-        }
-    }
-    
-    addComponent(_c){
+        var c = tab_module.shift();
+        
+        if(!c){return;}
+        
+        var self = this;
         
         var component = $.extend(true,
             {
                 name : '', //required
                 view : {
                     anchor : '',  // container's id into which the view is inserted
-                    template: ''
+                    template: '' // mustache.js template
                 },
                 data : '',
                 init : function(){},
                 listen : ''
-            } , _c );
+            } , c );
         
-        if(typeof _c.listen !== " undefined"){
-            component.listen = _c.listen;
+        if(typeof c.listen !== " undefined"){
+            component.listen = c.listen;
         }
-        this.settingComponent(component);
-        this.registerObserver(component);
+        
+        this.component[c.name] = component;
+        
+        $.when(
+            self.settingView(c.name , c.view.template), 
+            self.settingData(c.name , c.data))
+        .then(function(){                
+            self.renderComponent(c.name);
+            self.component[c.name].init(self);
+            self.addSubscriber(component);
+            // add next component
+            self.addComponent(tab_module);
+            
+        });
     }
     
-    notifyObserver(component_name){
+    addSubscriber(component){
         
-        if(typeof this.observable[component_name] !== "undefined"){
+        if(Array.isArray(component.listen)){
             
-            this.observable[component_name].forEach(function(observer) {
+            var listen_to = component.listen;            
+            for (var i = 0, max = listen_to.length - 2 ; i <= max; i++) {
+                if(typeof this.publisher[listen_to[i]] === "undefined"){
+                    this.publisher[listen_to[i]] = [component];
+                }
+                else{
+                    this.publisher[listen_to[i]].push(component);
+                }   
+            }
+        }
+    }
+    
+    notifySubscriber(component_name){
+        
+        if(typeof this.publisher[component_name] !== "undefined"){
+            
+            this.publisher[component_name].forEach(function(subscriber) {
                 
-                let lastElement = observer.listen[observer.listen.length-1];
-                lastElement.call(
-                        observer,
+                let callBack = subscriber.listen[subscriber.listen.length-1];
+                callBack.call(
+                        subscriber,
                         this, // Composite Object
                         { name :  component_name,
-                          data : this.shared_data[component_name]
+                          data : this.data_message[component_name]
                         });
                     
         
