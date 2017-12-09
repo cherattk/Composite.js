@@ -22,9 +22,8 @@ MyModule = [
             }
         },
         
-        init : function(){            
+        init : function(util){            
             form = document.getElementById('task-form');
-            var self = this;
             form.onsubmit = function(e){
                 e.preventDefault();
                 
@@ -34,7 +33,7 @@ MyModule = [
                     label : this.elements['label'].value
                 };
                 this.elements['label'].value = '';
-                self.updateData(data);
+                util.updateData(data);
             };
         }
     },
@@ -63,7 +62,7 @@ MyModule = [
         },
         listen : ['task-form' , function(notification){            
             this.data.todo.push(notification.data);
-            this.updateView();
+            return true;
         }]
     }
 ];

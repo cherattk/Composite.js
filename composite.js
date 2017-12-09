@@ -31,11 +31,6 @@ class _Composite {
                 self.component[component.name]['data'] = response_data;
             });
         }
-        
-        this.component[component.name].updateData =  function(data){
-                self.data_message[component.name] = data;
-                self.notifySubscriber(component.name);
-            };
     }
     
     settingView(component){
@@ -67,14 +62,23 @@ class _Composite {
     }
     
     initComponent(component_name){
-        this.component[component_name].init();
+        
+        var self = this;
+        var util = {
+            updateData : function(data){
+                self.data_message[component_name] = data;
+                self.notifySubscriber(component_name);
+            }
+        };
+        
+        this.component[component_name].init(util);
     }
     
     addModule(tab_module){
-        this.addComponent(tab_module);
+        this.settingComponent(tab_module);
     }
     
-    addComponent(tab_module){
+    settingComponent(tab_module){
         
         var c = tab_module.shift();
         
@@ -110,7 +114,7 @@ class _Composite {
             self.initComponent(component.name);
             self.addSubscriber(component.name);
             // add next component
-            self.addComponent(tab_module);
+            self.settingComponent(tab_module);
             
         });
     }
@@ -138,13 +142,18 @@ class _Composite {
             
             this.publisher[component_name].forEach(function(subscriber) {
                 
-                let notification = subscriber.listen[subscriber.listen.length-1];
-                notification.call(
+                var notification_idx = subscriber.listen.length - 1;
+                
+                var subscriber_callback = subscriber.listen[notification_idx];
+                var update_view = subscriber_callback.call(
                         subscriber,
                         { name :  component_name,
                           data : this.data_message[component_name]
                         });
-                                            
+                          
+                if(update_view){
+                    this.renderComponent(subscriber.name);
+                }
         
             },this);
         }
