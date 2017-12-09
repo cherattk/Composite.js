@@ -22,7 +22,7 @@ MyModule = [
             }
         },
         
-        init : function(composite){            
+        init : function(){            
             form = document.getElementById('task-form');
             var self = this;
             form.onsubmit = function(e){
@@ -34,7 +34,7 @@ MyModule = [
                     label : this.elements['label'].value
                 };
                 this.elements['label'].value = '';
-                composite.updateData(self.name , data);
+                self.updateData(data);
             };
         }
     },
@@ -61,10 +61,9 @@ MyModule = [
                     }
                 }, false);
         },
-        listen : ['task-form' , function(composite , notification){
-                
+        listen : ['task-form' , function(notification){            
             this.data.todo.push(notification.data);
-            composite.renderComponent(this.name);
+            this.updateView();
         }]
     }
 ];
