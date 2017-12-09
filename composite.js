@@ -22,35 +22,52 @@ class _Composite {
       return this.component[name];
     }
   
-    settingData(component_name , data){
+    settingData(component){
         
-        if(data && typeof data === 'string'){            
-            let self = this;
-            return $.getJSON(this.buildURL(data) , function(response_data){
-                self.component[component_name]['data'] = response_data;
+        let self = this;        
+        if(component.data && typeof component.data === 'string'){            
+            
+            return $.getJSON(this.buildURL(component.data) , function(response_data){
+                self.component[component.name]['data'] = response_data;
             });
         }
+        
+        this.component[component.name].updateData =  function(data){
+                self.data_message[component.name] = data;
+                self.notifySubscriber(component.name);
+            };
     }
     
-    settingView(component_name , template){
+    settingView(component){
         
-        var self = this;
-        if(typeof template === 'function'){
-            self.component[component_name]['view']['template'] = template();
+        if(!component.view){ return;}
+        
+         var self = this;
+        var template = component.view.template;
+            
+        if(typeof template === 'function'){            
+            // TODO : Assign HTML-Element rather than HTML-String
+            this.component[component.name]['view']['template'] = template();
             
         }else if (typeof template === 'string'){
-            let url = this.buildURL(template);
-            return $.get( url , function(html){
-                self.component[component_name]['view']['template'] = html;
+            
+            let url = this.buildURL(template);                   
+            
+            return $.get( url , function(html){                
+                // TODO : Assign HTML-Element rather than HTML-String
+                self.component[component.name]['view']['template'] = html;
             });
         }
+        
+        // add updateView function to component
+        this.component[component.name].updateView = function(){
+            self.renderComponent(component.name);
+        };
+        
     }
     
-    
-    
-    updateData(component_name , data){
-        this.data_message[component_name] = data;
-        this.notifySubscriber(component_name);
+    initComponent(component_name){
+        this.component[component_name].init();
     }
     
     addModule(tab_module){
@@ -65,7 +82,7 @@ class _Composite {
         
         var self = this;
         
-        var component = $.extend(true,
+        var component = jQuery.extend(true,
             {
                 name : '', //required
                 view : {
@@ -76,28 +93,31 @@ class _Composite {
                 init : function(){},
                 listen : ''
             } , c );
-        
-        if(typeof c.listen !== " undefined"){
-            component.listen = c.listen;
-        }
-        
+
+            if(typeof c.listen !== "undefined"){
+                component.listen = c.listen;
+            }
+            
         this.component[c.name] = component;
         
+        console.log(component);
+        
         $.when(
-            self.settingView(c.name , c.view.template), 
-            self.settingData(c.name , c.data))
-        .then(function(){                
-            self.renderComponent(c.name);
-            self.component[c.name].init(self);
-            self.addSubscriber(component);
+            self.settingView(component), 
+            self.settingData(component)
+        ).then(function(){                
+            self.renderComponent(component.name);
+            self.initComponent(component.name);
+            self.addSubscriber(component.name);
             // add next component
             self.addComponent(tab_module);
             
         });
     }
     
-    addSubscriber(component){
+    addSubscriber(component_name){
         
+        var component = this.component[component_name];
         if(Array.isArray(component.listen)){
             
             var listen_to = component.listen;            
@@ -118,16 +138,15 @@ class _Composite {
             
             this.publisher[component_name].forEach(function(subscriber) {
                 
-                let callBack = subscriber.listen[subscriber.listen.length-1];
-                callBack.call(
+                let notification = subscriber.listen[subscriber.listen.length-1];
+                notification.call(
                         subscriber,
-                        this, // Composite Object
                         { name :  component_name,
                           data : this.data_message[component_name]
                         });
-                    
+                                            
         
-            },this);            
+            },this);
         }
     }
   
