@@ -9,7 +9,7 @@ MyModule = [
                 title : "Composite Todo List",
                 message : "One Task at a Time"
             }
-    },    
+    },
     {
         name : 'task-form',
         view : {
@@ -22,8 +22,9 @@ MyModule = [
             }
         },
         
-        init : function(util){            
+        eventHandler : function(){
             form = document.getElementById('task-form');
+            var self = this;
             form.onsubmit = function(e){
                 e.preventDefault();
                 
@@ -33,9 +34,37 @@ MyModule = [
                     label : this.elements['label'].value
                 };
                 this.elements['label'].value = '';
-                util.updateData(data);
+                
+                // 2 - notify listeners by updating data
+                self.updateData(data);
             };
+        },
+        
+        init : function(){
+            this.eventHandler();
         }
+    },        
+    {
+        name : "form-data-service",
+        service : function(form_data){
+            
+            /**
+             * 1 - process form data
+             *  ...
+             *  ...
+             *  
+             *  2 - notify listeners by updating data
+             *  updateData() is "injected" in all components
+             *  by Composite.js
+             */
+            this.updateData(form_data);
+        },
+        listen : ['task-form' , function(notification){
+                
+            // service is notified by 'tas-form' component
+            this.service(notification.data);
+            
+        }]
     },
     {
         name : 'list',
@@ -60,9 +89,13 @@ MyModule = [
                     }
                 }, false);
         },
-        listen : ['task-form' , function(notification){            
+        listen : ['form-data-service' , function(notification){
+            
+           /**
+            * get notification from "form-data-service"
+            * data.todo is an array @see component/data.json file
+            */
             this.data.todo.push(notification.data);
-            return true;
         }]
     }
 ];
