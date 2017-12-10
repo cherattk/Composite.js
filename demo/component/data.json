@@ -2,7 +2,7 @@
     "todo" : [
         {
             "id" : "123",
-            "label": "Implement Composite",
+            "label": "Implement Composite.js",
             "status": "done"
         },
         {

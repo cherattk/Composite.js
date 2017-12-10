@@ -37,7 +37,7 @@ MyModule = [
             };
         }
     },
-    {  
+    {
         name : 'list',
         view : {            
             anchor : 'anchor-list',

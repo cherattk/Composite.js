@@ -10,7 +10,7 @@ class _Composite {
     
     constructor() {
         this.component = {};
-        this.publisher = {};
+        this.observable = {};
         this.data_message = {};
     }   
     
@@ -67,7 +67,7 @@ class _Composite {
         var util = {
             updateData : function(data){
                 self.data_message[component_name] = data;
-                self.notifySubscriber(component_name);
+                self.notifyObserver(component_name);
             }
         };
         
@@ -112,47 +112,47 @@ class _Composite {
         ).then(function(){                
             self.renderComponent(component.name);
             self.initComponent(component.name);
-            self.addSubscriber(component.name);
+            self.addObserver(component.name);
             // add next component
             self.settingComponent(tab_module);
             
         });
     }
     
-    addSubscriber(component_name){
+    addObserver(component_name){
         
         var component = this.component[component_name];
         if(Array.isArray(component.listen)){
             
             var listen_to = component.listen;            
             for (var i = 0, max = listen_to.length - 2 ; i <= max; i++) {
-                if(typeof this.publisher[listen_to[i]] === "undefined"){
-                    this.publisher[listen_to[i]] = [component];
+                if(typeof this.observable[listen_to[i]] === "undefined"){
+                    this.observable[listen_to[i]] = [component];
                 }
                 else{
-                    this.publisher[listen_to[i]].push(component);
+                    this.observable[listen_to[i]].push(component);
                 }   
             }
         }
     }
     
-    notifySubscriber(component_name){
+    notifyObserver(component_name){
         
-        if(typeof this.publisher[component_name] !== "undefined"){
+        if(typeof this.observable[component_name] !== "undefined"){
             
-            this.publisher[component_name].forEach(function(subscriber) {
+            this.observable[component_name].forEach(function(observer) {
                 
-                var notification_idx = subscriber.listen.length - 1;
+                var notification_idx = observer.listen.length - 1;
                 
-                var subscriber_callback = subscriber.listen[notification_idx];
-                var update_view = subscriber_callback.call(
-                        subscriber,
+                var observer_callback = observer.listen[notification_idx];
+                var update_view = observer_callback.call(
+                        observer,
                         { name :  component_name,
                           data : this.data_message[component_name]
                         });
                           
                 if(update_view){
-                    this.renderComponent(subscriber.name);
+                    this.renderComponent(observer.name);
                 }
         
             },this);
