@@ -10,7 +10,7 @@ class _Composite {
     
     constructor() {
         this.component = {};
-        this.publisher = {};
+        this.trigger = {};
         this.data_message = {};
     }   
     
@@ -54,11 +54,6 @@ class _Composite {
             });
         }
         
-        // add updateView function to component
-        this.component[component.name].updateView = function(){
-            self.renderComponent(component.name);
-        };
-        
     }
     
     initComponent(component_name){
@@ -67,7 +62,7 @@ class _Composite {
         var util = {
             updateData : function(data){
                 self.data_message[component_name] = data;
-                self.notifySubscriber(component_name);
+                self.notifyListener(component_name);
             }
         };
         
@@ -104,55 +99,53 @@ class _Composite {
             
         this.component[c.name] = component;
         
-        console.log(component);
-        
         $.when(
             self.settingView(component), 
             self.settingData(component)
         ).then(function(){                
             self.renderComponent(component.name);
             self.initComponent(component.name);
-            self.addSubscriber(component.name);
+            self.addListener(component.name);
             // add next component
             self.settingComponent(tab_module);
             
         });
     }
     
-    addSubscriber(component_name){
+    addListener(component_name){
         
         var component = this.component[component_name];
         if(Array.isArray(component.listen)){
             
-            var listen_to = component.listen;            
-            for (var i = 0, max = listen_to.length - 2 ; i <= max; i++) {
-                if(typeof this.publisher[listen_to[i]] === "undefined"){
-                    this.publisher[listen_to[i]] = [component];
+            var trigger_component = component.listen;            
+            for (var i = 0, max = trigger_component.length - 2 ; i <= max; i++) {
+                if(typeof this.trigger[trigger_component[i]] === "undefined"){
+                    this.trigger[trigger_component[i]] = [component];
                 }
                 else{
-                    this.publisher[listen_to[i]].push(component);
+                    this.trigger[trigger_component[i]].push(component);
                 }   
             }
         }
     }
     
-    notifySubscriber(component_name){
+    notifyListener(component_name){
         
-        if(typeof this.publisher[component_name] !== "undefined"){
+        if(typeof this.trigger[component_name] !== "undefined"){
             
-            this.publisher[component_name].forEach(function(subscriber) {
+            this.trigger[component_name].forEach(function(listener) {
                 
-                var notification_idx = subscriber.listen.length - 1;
+                var callback_idx = listener.listen.length - 1;
                 
-                var subscriber_callback = subscriber.listen[notification_idx];
-                var update_view = subscriber_callback.call(
-                        subscriber,
+                var listener_callback = listener.listen[callback_idx];
+                var update_view = listener_callback.call(
+                        listener,
                         { name :  component_name,
                           data : this.data_message[component_name]
                         });
                           
                 if(update_view){
-                    this.renderComponent(subscriber.name);
+                    this.renderComponent(listener.name);
                 }
         
             },this);
