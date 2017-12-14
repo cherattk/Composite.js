@@ -1,5 +1,5 @@
 ### What It Is
-Composite.js is a javascript Class for Component-Based FrontEnd Developement. Its implementation is based on **Mediator** design pattern.
+Composite.js is a javascript Class for Component-Based FrontEnd Developement.
 
 #### Required
  - jQuery
