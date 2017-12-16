@@ -25,20 +25,18 @@ class _Composite {
     settingData(component){
         
         let self = this;
-        
-        // deprecated
-        component.updateData = function(data){
-                self.data_message[component.name] = data;
-                self.notifyListener(component.name);
-        };
             
-        if(component.data && typeof component.data === 'string'){
-            
+        if(component.data && typeof component.data === 'string'){            
             return $.getJSON(this.buildURL(component.data) , function(response_data){
                 self.component[component.name]['data'] = response_data;
             });
         }
-        
+
+        // deprecated
+        component.updateData = function(data){
+            self.data_message[component.name] = data;
+            self.notifyListener(component.name);
+        };
         
     }
     
@@ -90,8 +88,8 @@ class _Composite {
                 listen : ''
             } , c );
 
-            if(typeof c.listen !== "undefined"){
-                component.listen = c.listen;
+            if(typeof c.listenTo !== "undefined"){
+                component.listenTo = c.listenTo;
             }
             
             if(typeof c.view !== "undefined"){
@@ -115,9 +113,9 @@ class _Composite {
     addListener(component_name){
         
         var component = this.component[component_name];
-        if(Array.isArray(component.listen)){
+        if(Array.isArray(component.listenTo)){
             
-            var trigger_component = component.listen;            
+            var trigger_component = component.listenTo;            
             for (var i = 0, max = trigger_component.length - 2 ; i <= max; i++) {
                 if(typeof this.trigger[trigger_component[i]] === "undefined"){
                     this.trigger[trigger_component[i]] = [component];
@@ -133,11 +131,14 @@ class _Composite {
         
         if(typeof this.trigger[component_name] !== "undefined"){
             
+            var callback_idx = 0,
+                listener_callback = function(){};
+
             this.trigger[component_name].forEach(function(listener) {
                 
-                var callback_idx = listener.listen.length - 1;
-                
-                var listener_callback = listener.listen[callback_idx];
+                    callback_idx = listener.listenTo.length - 1;                
+                    listener_callback = listener.listenTo[callback_idx];
+
                 listener_callback.call(
                         listener,
                         { name :  component_name,

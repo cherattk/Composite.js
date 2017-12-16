@@ -16,9 +16,9 @@ MyModule = [
             anchor : 'anchor-form',
             template : function(){
                 return `<form id="task-form">
-                        <input type="text" name="label"/>
-                        <input type="submit" value="save"/>
-                      </form>`;
+                            <input type="text" name="label"/>
+                            <input type="submit" value="save"/>
+                        </form>`;
             }
         },
         
@@ -43,26 +43,19 @@ MyModule = [
         init : function(){
             this.eventHandler();
         }
-    },        
+    },
     {
-        name : "form-data-service",
-        service : function(form_data){
+        name : "worker-that-store-data",
+        listenTo : ['task-form' , function(notification){
             
+            var data = notification.data;
+
             /**
-             * 1 - process form data
-             *  ...
-             *  ...
-             *  
-             *  2 - notify listeners by updating data
-             *  updateData() is "injected" in all components
-             *  by Composite.js
-             */
-            this.updateData(form_data);
-        },
-        listen : ['task-form' , function(notification){
-                
-            // service is notified by 'tas-form' component
-            this.service(notification.data);
+             * 1 - process datas that come from "task-form"
+             * 2 - store datas somewhere
+             * 3 - notify listeners by updating data
+            */
+            this.updateData(data);
             
         }]
     },
@@ -89,11 +82,12 @@ MyModule = [
                     }
                 }, false);
         },
-        listen : ['form-data-service' , function(notification){
+        listenTo : ['worker-that-store-data' , function(notification){
             
            /**
-            * get notification from "form-data-service"
-            * data.todo is an array @see component/data.json file
+            * get notification from "worker-that-store-data"
+            * data.todo is an array 
+            * @see component/data.json file
             */
             this.data.todo.push(notification.data);
         }]
