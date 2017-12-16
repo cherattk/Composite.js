@@ -3,7 +3,7 @@ MyModule = [
         name : 'head',
         view : {
             anchor : 'anchor-head',
-            template: "demo/component/head.html"
+            template: "component/head.html"
         },
         data : {
                 title : "Composite Todo List",
@@ -80,7 +80,7 @@ MyModule = [
                     </ul>`;
             }
         },
-        data : "demo/component/data.json",
+        data : "component/data.json",
         init : function(){
             var list = document.getElementById(this.view.anchor);
                     list.addEventListener('click', function(ev) {
