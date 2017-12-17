@@ -16,7 +16,7 @@ MyModule = [
             anchor : 'anchor-form',
             template : function(){
                 return `<form id="task-form">
-                            <input type="text" name="label"/>
+                            <input type="text" name="task_label" placeholder="your task here"/>
                             <input type="submit" value="save"/>
                         </form>`;
             }
@@ -28,12 +28,14 @@ MyModule = [
             form.onsubmit = function(e){
                 e.preventDefault();
                 
+                if(!this.elements['task_label'].value){return;}
+
                 var data = {
-                    id : '1111',
-                    status : 'todo',
-                    label : this.elements['label'].value
+                    "id" : '1111',
+                    "status" : 'todo',
+                    "task_label" : this.elements['task_label'].value
                 };
-                this.elements['label'].value = '';
+                this.elements['task_label'].value = '';
                 
                 // 2 - notify listeners by updating data
                 self.updateData(data);
@@ -67,7 +69,7 @@ MyModule = [
                 return `<ul id="todo-list" class="todo-list">
                         {{ #todo }}
                           <li class="{{ status }}" data-taskid="{{ id }}">
-                            {{ label }}
+                            {{ task_label }}
                           </li>
                         {{ /todo }}
                     </ul>`;
@@ -89,6 +91,8 @@ MyModule = [
             * data.todo is an array 
             * @see component/data.json file
             */
+
+            //
             this.data.todo.push(notification.data);
         }]
     }

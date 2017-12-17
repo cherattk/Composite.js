@@ -32,7 +32,11 @@ class _Composite {
             });
         }
 
-        // deprecated
+        /**
+         * @deprecated Called by component to trigger notification
+         * @param {Object} data - data message
+         * @todo check data format - must be valid json object
+         */
         component.updateData = function(data){
             self.data_message[component.name] = data;
             self.notifyListener(component.name);
@@ -53,7 +57,7 @@ class _Composite {
             var template = component.view.template;
 
             if(typeof template === 'function'){            
-                // TODO : Assign HTML-Element rather than HTML-String
+                /** @todo : Assign HTML-Element rather than HTML-String  */
                 this.component[component.name]['view']['template'] = template();
 
             }else if (typeof template === 'string'){
@@ -61,7 +65,7 @@ class _Composite {
                 let url = this.buildURL(template);                   
 
                 return $.get( url , function(html){                
-                    // TODO : Assign HTML-Element rather than HTML-String
+                    /** @todo : Assign HTML-Element rather than HTML-String  */
                     self.component[component.name]['view']['template'] = html;
                 });
             }

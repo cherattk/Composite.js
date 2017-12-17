@@ -31,7 +31,6 @@ ul {
 /************* Begin Form-Component ***********************/
 #task-form{
     margin: 0 0 20px;
-    borde:1px solid;
     text-align:left;
 }
 #task-form input[type="text"]{
@@ -39,7 +38,6 @@ ul {
     border:1px solid #999;
     width:calc(100% - 100px);
     outline:none;
-    backgroun:#efefef;
     box-shadow:1px 1px 1px #ccc inset
 }
 #task-form input[type="text"]:focus{
@@ -56,7 +54,7 @@ ul {
 #task-form input[type="submit"]:hover{
     background:#1b74e4;
 }
-/***************** End Component-Form ********************/
+/***************** End Form ********************/
 
 
 
@@ -97,4 +95,4 @@ ul {
     width: 7px;
 }
 
-/*************** End Component-List **********************/
+/*************** End List **********************/
