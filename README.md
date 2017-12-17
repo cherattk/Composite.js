@@ -1,5 +1,8 @@
 ### What It Is
-Composite.js is a framework (as basic structure underlying a system rather than a toolbox) for Component-Based FrontEnd Development. Its implementation is based on **Mediator** design pattern and uses **jQuery** and **Mustache.js**
+Composite.js is a framework (as basic structure underlying a system rather than a toolbox) 
+for Component-Based FrontEnd Development. 
+Its implementation is based on **Mediator** design pattern 
+and uses **jQuery** and **Mustache.js**
  
  ### Basic Usage with 2 files : index.html and my_app.js
  
@@ -38,9 +41,9 @@ Composite.js is a framework (as basic structure underlying a system rather than 
  ```js
  // 1 - define first component
  var task_form = {
-    name : "task-form", // component-name (required)
+    name : "task-form", // (required) component-name
     view : {
-        anchor : 'anchor-form', // where to append the component in index.html
+        anchor : 'anchor-form', // (required for view-attribute) where to append the component in index.html
         template : function(){
             return `<form id="task-form">
                         <input type="text" name="task_label" placeholder="your task here"/>
@@ -66,9 +69,9 @@ Composite.js is a framework (as basic structure underlying a system rather than 
     
 // 2 - define second component 
  var task_list = {
-        name : "list", // component-name (required)
+        name : "list", // (required) component-name
         view : {            
-            anchor : 'anchor-list', // where to append the component in index.html
+            anchor : 'anchor-list', // (required for view attribute) where to append the component in index.html
             template : function(){
                 return `<ul>
                             {{ #todo }}
