@@ -23,10 +23,11 @@ Composite.js is a framework (as basic structure underlying a system rather than 
  <body>
   <div id="anchor-form"><!-- component will be inserted here --></div>            
   <div id="anchor-list"><!-- component will be inserted here --></div>
- </body>
+  
+  <!-- my_app.js -->
+  <script src="path/to/my_app.js"></script>
  
- <!-- my_app.js -->
- <script src="path/to/my_app.js"></script>
+ </body>
  
  </html>
  
