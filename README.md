@@ -1,8 +1,7 @@
 ### What It Is
 Composite.js is a framework (as basic structure underlying a system rather than a toolbox) 
-for Component-Based FrontEnd Development. 
-Its implementation is based on **Mediator** design pattern 
-and uses **jQuery** and **Mustache.js**
+for Component-Based Development. 
+Its implementation uses **jQuery** and **Mustache.js**
  
  ### Basic Usage with 2 files : index.html and my_app.js
  
