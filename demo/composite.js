@@ -143,13 +143,14 @@ class _Composite {
                     callback_idx = listener.listenTo.length - 1;                
                     listener_callback = listener.listenTo[callback_idx];
 
-                listener_callback.call(
+                    var render_view = listener_callback.call(
                         listener,
                         { name :  component_name,
                           data : this.data_message[component_name]
-                        });
+                    });
                           
-                if(typeof listener.view !== "undefined"){
+                // deprecated
+                if(render_view && typeof listener.view !== "undefined"){
                     this.renderComponent(listener.name);
                 }
         

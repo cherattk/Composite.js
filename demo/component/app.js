@@ -47,14 +47,14 @@ MyModule = [
         }
     },
     {
-        name : "worker-that-store-data",
+        name : "worker-that-processes-data",
         listenTo : ['task-form' , function(notification){
             
             var data = notification.data;
 
             /**
              * 1 - process datas that come from "task-form"
-             * 2 - store datas somewhere
+             * 2 - processes datas somewhere
              * 3 - notify listeners by updating data
             */
             this.updateData(data);
@@ -84,16 +84,18 @@ MyModule = [
                     }
                 }, false);
         },
-        listenTo : ['worker-that-store-data' , function(notification){
+        listenTo : ['worker-that-processes-data' , function(notification){
             
            /**
-            * get notification from "worker-that-store-data"
+            * get notification from "worker-that-processes-data"
             * data.todo is an array 
             * @see component/data.json file
             */
 
-            //
             this.data.todo.push(notification.data);
+
+            // return true if we want to update list's view
+            return true;
         }]
     }
 ];
