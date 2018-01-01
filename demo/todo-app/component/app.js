@@ -3,6 +3,7 @@ MyModule = [
         name : 'head',
         view : {
             anchor : 'anchor-head',
+            //template: "component/head.html"
             template: "component/head.html"
         },
         data : {
@@ -28,7 +29,10 @@ MyModule = [
             form.onsubmit = function(e){
                 e.preventDefault();
                 
-                if(!this.elements['task_label'].value){return;}
+                if(!this.elements['task_label'].value){                    
+                    window.alert('Sorry, i can\'t add an empty value to the list');
+                    return;
+                }
 
                 var data = {
                     "id" : '1111',
