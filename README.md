@@ -54,7 +54,10 @@ Its implementation uses **jQuery** and **Mustache.js**
          var self = this;
          document.getElementById('task-form').onsubmit = function(e){
                 e.preventDefault();
-                if(!this.elements['task_label'].value){return;}
+                if(!this.elements['task_label'].value){
+                  window.alert('Sorry, i can\'t add an empty value to the list');
+                    return;
+                 }
                 var data = {
                     "task_label" : this.elements['task_label'].value
                 };
@@ -96,6 +99,9 @@ Its implementation uses **jQuery** and **Mustache.js**
 
             // update view data
             this.data.todo.push(notification.data);
+            
+            // return true tu update view
+            return true
         }]
     };
     
@@ -106,15 +112,15 @@ Its implementation uses **jQuery** and **Mustache.js**
  ### voila, you can now open index.html in browser
  
  
- ### 2 - For advanced usage take a look at **demo/** folder
+ ### 2 - For advanced usage take a look at **demo/todo-app** folder
 
  In the demo app the templates and data are loaded dynamically, therefore to avoid getting the "cross origin requests" error you need to load the demo by a webserver.
 
 ##### With built-in php server
 ```bash
-$ cd demo/
+$ cd demo/todo-app
 $ php -S localhost:8383
 ```
 and opening http://localhost:8383 address should display something like this
 
-![Todo Demo](/demo/demo.png?raw=true "Todo List")
+![Todo Demo](/demo/todo-app/demo.png?raw=true "Todo List")
