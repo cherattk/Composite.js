@@ -9,9 +9,9 @@ Concretely it acts as a **EventBus** with the following features:
  
  ### Basic Usage:
  In the exemple below we define 2 components **form** and **list** with following workflow:
- * 1 - The **form** component notify a **list** component whenever a input is saved.
- * 2 - the **form** component sends input data throught the notification.
- * 2 - the **list** component updates its view part in the listening function.
+ * 1-a) The **form** component notify a **list** component whenever a input is saved.
+ * 1-b) the **form** component sends input data throught the notification.
+ * 2- ) the **list** component updates its view part in the listening function.
  
  #### index.html
  ```html
