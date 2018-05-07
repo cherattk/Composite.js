@@ -1,7 +1,11 @@
 ### What It Is
-Composite.js is a framework (as basic structure underlying a system rather than a toolbox) 
-for Component-Based Development. 
-Its implementation uses **jQuery** and **Mustache.js**
+Composite.js is a framework (as basic structure underlying a system) for Component-Based Development. 
+Its implementation is based on **jQuery** and **Mustache.js**.
+
+Concretely it acts as a EventBus with the following features:
+* 1 - Loading the view part of component asynchronously (with jQuery).
+* 2 - Updating the listener’s view (with Mustache.js) whenever the notification occurs.
+
  
  ### Basic Usage with 2 files : index.html and my_app.js
  
