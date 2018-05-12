@@ -2,16 +2,14 @@
 Composite.js is a framework (as basic structure underlying a system) for Component-Based Development. 
 Its implementation is based on **jQuery** and **Mustache.js**.
 
-Concretely it acts as a **EventBus** with the following features:
-* 1 - Loading the view part of component asynchronously (with jQuery).
+Concretely it is a **Observer Pattern** implementation with the following (optional) features:
+* 1 - Loading the view template of component asynchronously (with jQuery). see [Todo Demo](/demo/todo-app/)
 * 2 - Updating the listener’s view (with Mustache.js) whenever the notification occurs.
 
- 
  ### Basic Usage:
  In the exemple below we define 2 components **form** and **list** with following workflow:
- * 1-a) The **form** component notify a **list** component whenever a input is saved.
- * 1-b) the **form** component sends input data through the notification.
- * 2- ) the **list** component updates its view part in the listening function.
+ * 1 )The **form** component notify a **list** component by sending input data through the notification.
+ * 2 ) The **list** component updates its view inside the listening function.
  
  #### index.html
  ```html
@@ -50,7 +48,7 @@ Concretely it acts as a **EventBus** with the following features:
  var task_form = {
     name : "task-form", // (required) component-name
     view : {
-        anchor : 'anchor-form', // (required for view-attribute) where to append the component in index.html
+        anchor : 'anchor-form', // (required for view) where to append the component in index.html
         template : function(){
             return `<form id="task-form">
                         <input type="text" name="task_label" placeholder="your task here"/>
@@ -61,17 +59,17 @@ Concretely it acts as a **EventBus** with the following features:
     init : function(){    
          var self = this;
          document.getElementById('task-form').onsubmit = function(e){
-                e.preventDefault();
-                if(!this.elements['task_label'].value){
-                  window.alert('Sorry, i can\'t add an empty value to the list');
-                    return;
-                 }
-                var data = {
-                    "task_label" : this.elements['task_label'].value
-                };
-                this.elements['task_label'].value = '';
-                
-                // 2 - notify listeners by updating data
+            e.preventDefault();
+            if(!this.elements['task_label'].value){
+              window.alert('Sorry, i can\'t add an empty value to the list');
+                return;
+             }
+            var data = {
+                "task_label" : this.elements['task_label'].value
+            };
+            this.elements['task_label'].value = '';
+
+            // 2 - notify listeners by updating data
             self.updateData(data);
        }
     }
@@ -84,27 +82,24 @@ Concretely it acts as a **EventBus** with the following features:
             anchor : 'anchor-list', // (required for view attribute) where to append the component in index.html
             template : function(){
                 return `<ul>
-                            {{ #todo }}
-                            <li>
-                                {{ task_label }}
-                            </li>
-                            {{ /todo }}
+                        {{ #todo }}
+                        <li>
+                            {{ task_label }}
+                        </li>
+                        {{ /todo }}
                         </ul>`;
             }
         },
-        data : {
-            "todo" : [
-                        {
+        data : { "todo" : [ {
                             "task_label": "First Task"
-                        }
-                    ]
+                            }
+                         ]
         },
         listenTo : ['task-form' , function(notification){
 
            /**
             * the {list} component will be notified by {task-form} when the form is submitted
             */
-
             // update view data
             this.data.todo.push(notification.data);
             
