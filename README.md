@@ -1,9 +1,6 @@
 ### What It Is
-Composite.js is a framework (as basic structure underlying a system) for Component-Based Development. 
-Its implementation is based on **jQuery** and **Mustache.js**.
-
-Concretely it is a **Observer Pattern** implementation with the following (optional) features:
-* 1 - Loading the view template of component asynchronously (with jQuery). see [Todo Demo](/demo/todo-app/)
+It is a **Observer Pattern** implentation that uses **jQuery** and **Mustache.js** to provide the following features:
+* 1 - Loading the view template of component asynchronously (with jQuery).
 * 2 - Updating the listener’s view (with Mustache.js) whenever the notification occurs.
 
  ### Basic Usage:
